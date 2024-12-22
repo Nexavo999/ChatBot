@@ -1,35 +1,38 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const userInput = document.getElementById("user-input");
-    const sendBtn = document.getElementById("send-btn");
-    const chatWindow = document.getElementById("chat-window");
+document.addEventListener('DOMContentLoaded', () => {
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.querySelector('.send-button');
+    const chatMessages = document.querySelector('.chat-messages');
 
-    sendBtn.addEventListener("click", () => {
-        const userMessage = userInput.value.trim();
-        if (userMessage) {
-            appendMessage("user", userMessage);
-            userInput.value = "";
+    sendButton.addEventListener('click', async () => {
+        const messageText = messageInput.value.trim();
+        if (messageText !== "") {
+            appendMessage("user", messageText);
+            messageInput.value = ""; // Clear input
 
-            // Fetch response from API
-            fetch(`https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.response) {
-                        appendMessage("bot", data.response);
-                    } else {
-                        appendMessage("bot", "Sorry, no response.");
-                    }
-                })
-                .catch(error => {
-                    appendMessage("bot", "Error: Unable to connect to the API.");
+            // Send the message to the Paxsenix AI API
+            try {
+                const response = await fetch('https://api.paxsenix.biz.id/ai/gpt4o?text=' + messageText, {
+                    method: 'GET'
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Error fetching AI response: ${response.status}`);
+                }
+
+                const data = await response.json();
+                appendMessage("bot", data.text); // Assuming the response contains a "text" property
+            } catch (error) {
+                console.error('Error fetching AI response:', error);
+                appendMessage("bot", "An error occurred while processing your request. Please try again later.");
+            }
         }
     });
 
     function appendMessage(sender, message) {
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("message", sender);
-        messageElement.textContent = message;
-        chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', `${sender}-message`);
+        messageDiv.innerHTML = sender === "bot" ? `<div class="bot-icon"></div><div class="message-content">${message}</div><div class="message-actions"><button></button><button></button><button></button><button></button><button>⌄</button></div>` : `<div class="message-content">${message}</div>`;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
     }
 });
