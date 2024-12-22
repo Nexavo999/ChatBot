@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const userInput = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
@@ -7,25 +6,30 @@ document.addEventListener("DOMContentLoaded", () => {
     sendBtn.addEventListener("click", () => {
         const userMessage = userInput.value.trim();
         if (userMessage) {
-            appendMessage("You", userMessage);
+            appendMessage("user", userMessage);
             userInput.value = "";
 
+            // Fetch response from API
             fetch(`https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`)
                 .then(response => response.json())
                 .then(data => {
-                    appendMessage("ChatBot", data.response || "Sorry, no response.");
+                    if (data.response) {
+                        appendMessage("bot", data.response);
+                    } else {
+                        appendMessage("bot", "Sorry, no response.");
+                    }
                 })
                 .catch(error => {
-                    appendMessage("ChatBot", "Error: Unable to fetch response.");
+                    appendMessage("bot", "Error: Unable to connect to the API.");
                 });
         }
     });
 
     function appendMessage(sender, message) {
         const messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-        messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        messageElement.classList.add("message", sender);
+        messageElement.textContent = message;
         chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
     }
 });
