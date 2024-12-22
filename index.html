@@ -3,18 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBot</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>AI Chat UI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="chat-container">
-        <div class="header">ChatBot</div>
-        <div id="chat-window" class="chat-window"></div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
-            <button id="send-btn">Send</button>
+        <div class="header">
+            <button class="menu-button">☰</button>
+            <span class="title">ChatGPT</span>
+            <button class="edit-button">✎</button>
         </div>
+
+        <div class="chat-messages">
+            <div class="message user-message">
+                <div class="message-content">Hey</div>
+            </div>
+            <div class="message bot-message">
+                <div class="bot-icon">🤖</div>
+                <div class="message-content">Hi! How can I help you today?</div>
+                <div class="message-actions">
+                    <button>🔊</button>
+                    <button>👎</button>
+                    <button>👍</button>
+                    <button>🔄</button>
+                    <button>⌄</button>
+                </div>
+            </div>
+          </div>
+
+        <div class="input-area">
+            <input type="text" id="message-input" placeholder="Message ChatGPT">
+            <button class="mic-button">🎤</button>
+            <button class="globe-button">🌐</button>
+            <button class="send-button">↑</button>
+        </div>
+        <div class="footer">ChatGPT can make mistakes. Check important info. ?</div>
     </div>
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
