@@ -1,17 +1,21 @@
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .chat-container {
+    width: 100%;
     max-width: 600px;
-    margin: 50px auto;
+    height: 90vh;
     border: 1px solid #ccc;
     border-radius: 10px;
     background: #ffffff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -22,6 +26,7 @@ body {
     color: white;
     text-align: center;
     padding: 10px 0;
+    font-size: 1.2em;
 }
 
 .chat-window {
@@ -30,12 +35,34 @@ body {
     overflow-y: auto;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-window .message {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 70%;
+}
+
+.chat-window .message.user {
+    align-self: flex-end;
+    background: #007bff;
+    color: white;
+}
+
+.chat-window .message.bot {
+    align-self: flex-start;
+    background: #f0f0f0;
+    color: black;
 }
 
 .input-container {
     display: flex;
     padding: 10px;
     border-top: 1px solid #ddd;
+    background: #ffffff;
 }
 
 #user-input {
