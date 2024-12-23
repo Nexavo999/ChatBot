@@ -1,4 +1,4 @@
-/* General Body Styling */
+/* General Styling */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -35,8 +35,7 @@ body {
     font-size: 1.2em;
 }
 
-.menu-icon,
-.down-arrow {
+.menu-icon {
     font-size: 1.5em;
     cursor: pointer;
 }
@@ -44,6 +43,12 @@ body {
 .title {
     font-size: 1.3em;
     font-weight: bold;
+}
+
+.edit-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }
 
 /* Chat Window */
@@ -62,6 +67,7 @@ body {
     border-radius: 20px;
     max-width: 70%;
     word-wrap: break-word;
+    font-size: 0.9em;
 }
 
 .chat-window .message.user {
