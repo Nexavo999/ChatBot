@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     async function sendMessage() {
         const userMessage = userInput.value.trim();
         if (userMessage) {
-            // Append user's message to chat window
+            // Append user's message to the chat window
             appendMessage("user", userMessage);
-            userInput.value = "";
+            userInput.value = ""; // Clear input field
 
-            // Fetch response from API
+            // Call the API
             try {
                 const response = await fetch(
                     `https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`
@@ -33,9 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 const data = await response.json();
-
                 if (data && data.response) {
-                    appendMessage("bot", data.response); // Bot's reply
+                    appendMessage("bot", data.response); // Append bot's response
                 } else {
                     appendMessage("bot", "Sorry, no valid response from the server.");
                 }
