@@ -18,17 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
     async function sendMessage() {
         const userMessage = userInput.value.trim();
         if (userMessage) {
-            // Append user's message
+            // Append user's message to chat window
             appendMessage("user", userMessage);
             userInput.value = "";
 
-            // Call the API
+            // Fetch response from API
             try {
                 const response = await fetch(
-                    `https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`,
-                    {
-                        method: "GET",
-                    }
+                    `https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`
                 );
 
                 if (!response.ok) {
@@ -38,13 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
 
                 if (data && data.response) {
-                    appendMessage("bot", data.response);
+                    appendMessage("bot", data.response); // Bot's reply
                 } else {
-                    appendMessage("bot", "Sorry, no response from the server.");
+                    appendMessage("bot", "Sorry, no valid response from the server.");
                 }
             } catch (error) {
                 console.error("Error fetching API:", error);
-                appendMessage("bot", "Error: Unable to connect to the API.");
+                appendMessage("bot", "Error: Unable to connect to the server.");
             }
         }
     }
@@ -54,6 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messageElement.classList.add("message", sender);
         messageElement.textContent = message;
         chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
+        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
     }
 });
