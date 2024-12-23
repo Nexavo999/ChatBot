@@ -24,17 +24,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Call the API
             try {
-                const response = await fetch(
-                    `https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`
-                );
-
+                const url = `https://chat-gpt-3-5.bjcoderx.workers.dev/?text=${encodeURIComponent(userMessage)}`;
+                
+                // Sending the request
+                const response = await fetch(url);
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
+                // Get the JSON data
                 const data = await response.json();
-                if (data && data.response) {
-                    appendMessage("bot", data.response); // Append bot's response
+
+                // If response is valid, show the bot's reply
+                if (data && data.reply) {
+                    appendMessage("bot", data.reply); // Bot's response
                 } else {
                     appendMessage("bot", "Sorry, no valid response from the server.");
                 }
