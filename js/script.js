@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Call the API
             try {
-                const url = `https://chat-gpt-3-5.bjcoderx.workers.dev/?text=${encodeURIComponent(userMessage)}`;
+                const url = 'https://api.paxsenix.biz.id/ai/gpt4o?text=' + encodeURIComponent(userMessage);
                 
                 // Sending the request to the API
                 const response = await fetch(url);
@@ -38,12 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("API Response:", data);  // Debug: Check the API response
 
                 // Handle the response (if the 'reply' or 'response' key exists)
-                if (data && data.reply) {
-                    appendMessage("bot", data.reply);  // If API returns "reply"
-                } else if (data && data.response) {
-                    appendMessage("bot", data.response);  // If API returns "response"
+                if (data) {
+                    if (data.reply) {
+                        appendMessage("bot", data.reply);  // If API returns "reply"
+                    } else if (data.response) {
+                        appendMessage("bot", data.response);  // If API returns "response"
+                    } else {
+                        appendMessage("bot", "Sorry, the AI assistant did not provide a response.");
+                    }
                 } else {
-                    appendMessage("bot", "Sorry, no valid response from the server.");
+                    appendMessage("bot", "Error: Unable to connect to the server.");
                 }
             } catch (error) {
                 console.error("Error fetching API:", error);
