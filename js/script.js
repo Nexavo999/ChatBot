@@ -15,26 +15,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function sendMessage() {
+    async function sendMessage() {
         const userMessage = userInput.value.trim();
         if (userMessage) {
             // Append user's message
             appendMessage("user", userMessage);
             userInput.value = "";
 
-            // Simulate API request
-            fetch(`https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.response) {
-                        appendMessage("bot", data.response);
-                    } else {
-                        appendMessage("bot", "Sorry, no response.");
+            // Call the API
+            try {
+                const response = await fetch(
+                    `https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`,
+                    {
+                        method: "GET",
                     }
-                })
-                .catch(() => {
-                    appendMessage("bot", "Error: Unable to connect to the API.");
-                });
+                );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.response) {
+                    appendMessage("bot", data.response);
+                } else {
+                    appendMessage("bot", "Sorry, no response from the server.");
+                }
+            } catch (error) {
+                console.error("Error fetching API:", error);
+                appendMessage("bot", "Error: Unable to connect to the API.");
+            }
         }
     }
 
