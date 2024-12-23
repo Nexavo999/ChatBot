@@ -18,10 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function sendMessage() {
         const userMessage = userInput.value.trim();
         if (userMessage) {
+            // Append user's message
             appendMessage("user", userMessage);
             userInput.value = "";
 
-            // Fetch response from API
+            // Simulate API request
             fetch(`https://api.paxsenix.biz.id/ai/gpt4o?text=${encodeURIComponent(userMessage)}`)
                 .then((response) => response.json())
                 .then((data) => {
