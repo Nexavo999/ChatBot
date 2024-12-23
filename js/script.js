@@ -26,19 +26,22 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const url = `https://chat-gpt-3-5.bjcoderx.workers.dev/?text=${encodeURIComponent(userMessage)}`;
                 
-                // Sending the request
+                // Sending the request to the API
                 const response = await fetch(url);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                // Get the JSON data
+                // Parse the JSON data from the API
                 const data = await response.json();
+                console.log("API Response:", data);  // Debug: Check the API response
 
-                // If response is valid, show the bot's reply
+                // Handle the response (if the 'reply' or 'response' key exists)
                 if (data && data.reply) {
-                    appendMessage("bot", data.reply); // Bot's response
+                    appendMessage("bot", data.reply);  // If API returns "reply"
+                } else if (data && data.response) {
+                    appendMessage("bot", data.response);  // If API returns "response"
                 } else {
                     appendMessage("bot", "Sorry, no valid response from the server.");
                 }
@@ -54,6 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messageElement.classList.add("message", sender);
         messageElement.textContent = message;
         chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+        chatWindow.scrollTop = chatWindow.scrollHeight;  // Auto-scroll to bottom
     }
 });
