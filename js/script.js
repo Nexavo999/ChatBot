@@ -24,10 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Call the API
             try {
-                const url = 'https://api.paxsenix.biz.id/ai/gpt4o?text=' + encodeURIComponent(userMessage);
+                const url = `https://api.paxsenix.biz.id/ai/gpt4omini?text=${encodeURIComponent(userMessage)}`;
                 
-                // Sending the request to the API
-                const response = await fetch(url);
+                // Sending the request to the API with headers
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json'
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -35,19 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Parse the JSON data from the API
                 const data = await response.json();
-                console.log("API Response:", data);  // Debug: Check the API response
+                console.log("API Response:", data); // Debug: Check the API response
 
-                // Handle the response (if the 'reply' or 'response' key exists)
-                if (data) {
-                    if (data.reply) {
-                        appendMessage("bot", data.reply);  // If API returns "reply"
-                    } else if (data.response) {
-                        appendMessage("bot", data.response);  // If API returns "response"
-                    } else {
-                        appendMessage("bot", "Sorry, the AI assistant did not provide a response.");
-                    }
+                // Handle the response (extracting 'message' key)
+                if (data && data.ok && data.message) {
+                    appendMessage("bot", data.message);  // Display the bot's response
                 } else {
-                    appendMessage("bot", "Error: Unable to connect to the server.");
+                    appendMessage("bot", "Sorry, no valid response received from the API.");
                 }
             } catch (error) {
                 console.error("Error fetching API:", error);
